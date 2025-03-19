@@ -1,0 +1,10 @@
+src/__pycache__/
+.vscode/
+.venv/
+
+# Logs and models
+logs/
+models/
+
+# OSX files
+.DS_Store
