@@ -17,9 +17,9 @@ def get_torch_device() -> torch.device:
     else:
         return torch.device("cpu")
 
-def linear_schedule(initial_value: float) -> Schedule:
+def linear_schedule(initial_value: float, min_value: float) -> Schedule:
     def func(progress_remaining: float) -> float:
-        return progress_remaining * initial_value
+        return max(min_value, progress_remaining * initial_value)
     return func
 
 def train():
@@ -32,7 +32,7 @@ def train():
 
     env = create_training_env()
 
-    model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=location.LOG_DIR, learning_rate=linear_schedule(0.00001), n_steps=512, device=device)
+    model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=location.LOG_DIR, learning_rate=linear_schedule(0.00001, 0.000001), n_steps=512, device=device)
     model.learn(total_timesteps=10_000_000)
     model.save(location.MODEL_PATH)
 
