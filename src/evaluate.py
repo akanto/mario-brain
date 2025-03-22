@@ -7,7 +7,6 @@ import location
 
 def record_video(env):
     ensure_directory_exists(location.VIDEO_DIR)
-
     env = VecVideoRecorder(venv=env, video_folder=location.VIDEO_DIR, name_prefix="mario-ppo-evaluation", record_video_trigger=lambda x: x == 0, video_length=2000)
     return env
 
@@ -15,10 +14,8 @@ def record_video(env):
 def evaluate():
     print("Evaluate")
 
-    env = create_training_env()
-    
+    env = create_training_env()    
     #env = record_video(env)
-
 
     model = PPO.load(path=location.MODEL_PATH, env=env)
 

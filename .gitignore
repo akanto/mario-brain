@@ -1,10 +1,15 @@
-src/__pycache__/
-.vscode/
+# Byte-compiled and cached files
+__pycache__/
+
+# Virtual environment
 .venv/
+
+# IDE and editor settings
+.vscode/
 
 # Logs and models
 logs/
 models/
 
-# OSX files
+# macOS-specific files
 .DS_Store
