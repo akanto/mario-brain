@@ -1,6 +1,6 @@
 import gym
 from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
-from gym.wrappers import GrayScaleObservation
+from gym.wrappers import GrayScaleObservation, ResizeObservation
 from nes_py.wrappers import JoypadSpace
 from stable_baselines3.common.vec_env import VecFrameStack, DummyVecEnv
 
@@ -35,6 +35,7 @@ def create_env():
 def create_training_env():
     env = create_env()
     env = GrayScaleObservation(env, keep_dim=True)
+    # env = ResizeObservation(env, shape=64)
     env = DummyVecEnv([lambda: env])
     env = VecFrameStack(env, n_stack=4, channels_order='last')
     return env
