@@ -18,22 +18,16 @@ pip install -r requirements.txt
 
 ## Usage
 
-Change the working directory to the `src` folder:
+Train the agent from scratch using the following command, the trained model will be saved in the `models/` directory:
 
 ```bash
-cd src
+python src/train.py
 ```
 
-Train the agent from scratch using the following command, the trained model will be saved in the `../models/` directory:
+Evaluate the trained model to see how well it performs, it will load the model from the `models/` directory. The evaluation also renders the gameplay, so you can watch the AI play:
 
 ```bash
-python train.py
-```
-
-Evaluate the trained model to see how well it performs, it will load the model from the `../models/` directory. The evaluation also renders the gameplay, so you can watch the AI play:
-
-```bash
-python evaluate.py
+python src/evaluate.py
 ```
 
 ## Logging and Monitoring
@@ -41,7 +35,7 @@ python evaluate.py
 Training logs and metrics are stored in the `../logs/` directory. Launch TensorBoard to monitor progress:
 
 ```bash
-tensorboard --logdir ../logs/PPO_1
+tensorboard --logdir logs/PPO_1
 ```
 
 Open the link in your browser (http://localhost:6006/) to view real-time metrics.
