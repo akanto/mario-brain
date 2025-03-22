@@ -5,6 +5,7 @@ from stable_baselines3.common.type_aliases import Schedule
 from utils import ensure_directory_exists
 from environment import create_training_env
 
+import os
 import torch
 import location
 
@@ -22,18 +23,33 @@ def linear_schedule(initial_value: float, min_value: float) -> Schedule:
         return max(min_value, progress_remaining * initial_value)
     return func
 
-def train():
-
+def init():
     ensure_directory_exists(location.MODEL_DIR)
     ensure_directory_exists(location.LOG_DIR)
-    
-    device = get_torch_device()
-    print(f"Training on device: {device}")
-
     env = create_training_env()
+    device = get_torch_device()
+    print(f"Training on {device}")
+    return env, device
 
-    model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=location.LOG_DIR, learning_rate=linear_schedule(0.00001, 0.000001), n_steps=512, device=device)
-    model.learn(total_timesteps=10_000_000)
+def get_model(env, device):
+    new_model = not os.path.exists(location.LATEST_MODEL_PATH + ".zip")
+    if new_model:
+        print("Training from scratch, creating new model")
+        model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=location.LOG_DIR, learning_rate=linear_schedule(0.00001, 0.000001), n_steps=512, device=device)
+    else:
+        print(f"Loading model from {location.LATEST_MODEL_PATH}.zip")
+        model = PPO.load(path=location.LATEST_MODEL_PATH, env=env, device=device)
+    return model, new_model
+
+def train():
+    env, device = init()
+
+    env.reset()
+
+    model, reset_num_timesteps = get_model(env, device)
+    print(f"Number of timesteps trained: {model.num_timesteps}, reset_num_timesteps: {reset_num_timesteps}")
+
+    model.learn(total_timesteps=1_000_000, reset_num_timesteps=reset_num_timesteps)
     model.save(location.MODEL_PATH)
 
     print(f"Training complete, model saved to {location.MODEL_PATH}")

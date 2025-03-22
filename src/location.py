@@ -4,3 +4,5 @@ VIDEO_DIR = 'videos/'
 
 MODEL_NAME = 'mario_ppo'
 MODEL_PATH = MODEL_DIR + MODEL_NAME
+
+LATEST_MODEL_PATH = MODEL_DIR + MODEL_NAME + '_latest'
