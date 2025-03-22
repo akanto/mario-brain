@@ -21,13 +21,19 @@ pip install -r requirements.txt
 Train the agent from scratch using the following command, the trained model will be saved in the `models/` directory:
 
 ```bash
-python src/train.py
+python mario_brain/train.py
 ```
 
 Evaluate the trained model to see how well it performs, it will load the model from the `models/` directory. The evaluation also renders the gameplay, so you can watch the AI play:
 
 ```bash
-python src/evaluate.py
+python mario_brain/evaluate.py
+```
+
+If you want to see some gamplay without AI, then you can run the random play script:
+
+```bash
+python mario_brain/random_play.py
 ```
 
 ## Logging and Monitoring

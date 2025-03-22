@@ -1,13 +1,14 @@
+from env_factory import create_training_env
+
 from stable_baselines3 import PPO
-from environment import create_training_env
 from stable_baselines3.common.vec_env.vec_video_recorder import VecVideoRecorder
 
 from utils import ensure_directory_exists
-import location
+from location import VIDEO_DIR, MODEL_PATH
 
 def record_video(env):
-    ensure_directory_exists(location.VIDEO_DIR)
-    env = VecVideoRecorder(venv=env, video_folder=location.VIDEO_DIR, name_prefix="mario-ppo-evaluation", record_video_trigger=lambda x: x == 0, video_length=2000)
+    ensure_directory_exists(VIDEO_DIR)
+    env = VecVideoRecorder(venv=env, video_folder=VIDEO_DIR, name_prefix="mario-ppo-evaluation", record_video_trigger=lambda x: x == 0, video_length=2000)
     return env
 
 
@@ -17,7 +18,7 @@ def evaluate():
     env = create_training_env()    
     #env = record_video(env)
 
-    model = PPO.load(path=location.MODEL_PATH, env=env)
+    model = PPO.load(path=MODEL_PATH, env=env)
 
     obs = env.reset()
     done = False

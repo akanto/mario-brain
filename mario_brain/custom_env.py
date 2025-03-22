@@ -1,41 +1,5 @@
-import gym_super_mario_bros
 from gym_super_mario_bros import SuperMarioBrosEnv
-from gym_super_mario_bros.actions import SIMPLE_MOVEMENT, COMPLEX_MOVEMENT
 
-from gym.wrappers import GrayScaleObservation
-
-from nes_py.wrappers import JoypadSpace
-
-from stable_baselines3.common.vec_env import VecFrameStack, DummyVecEnv
-
-import gym
-
-def _register_custom_mario_env(id, **kwargs):
-    """
-    Register a Super Mario Bros  environment with OpenAI Gym.
-
-    Args:
-        id (str): id for the env to register
-        kwargs (dict): keyword arguments for the SuperMarioBrosEnv initializer
-
-    Returns:
-        None
-
-    """
-    # register the environment
-    gym.envs.registration.register(
-        id=id,
-        entry_point='environment:CustomMarioEnv',
-        max_episode_steps=9999999,
-        reward_threshold=9999999,
-        kwargs=kwargs,
-        nondeterministic=True,
-    )
-
-_register_custom_mario_env('CustomSuperMarioBros-v0', rom_mode='vanilla')
-_register_custom_mario_env('CustomSuperMarioBros-v1', rom_mode='downsample')
-_register_custom_mario_env('CustomSuperMarioBros-v2', rom_mode='pixel')
-_register_custom_mario_env('CustomSuperMarioBros-v3', rom_mode='rectangle')
 
 class CustomMarioEnv(SuperMarioBrosEnv):
     def __init__(self, *args, **kwargs):
@@ -78,16 +42,3 @@ class CustomMarioEnv(SuperMarioBrosEnv):
         _reward = super()._get_reward() + self._repetitive_action_penalty
         # print(f"Total reward: {_reward}")
         return _reward
-
-def create_env():
-    # env = gym.make('CustomSuperMarioBros-v0')
-    env = gym_super_mario_bros.make('SuperMarioBros-v0')
-    env = JoypadSpace(env, SIMPLE_MOVEMENT)
-    return env
-
-def create_training_env():
-    env = create_env()
-    env = GrayScaleObservation(env, keep_dim=True)
-    env = DummyVecEnv([lambda: env])
-    env = VecFrameStack(env, n_stack=4, channels_order='last')
-    return env

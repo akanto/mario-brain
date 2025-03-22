@@ -3,11 +3,11 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.type_aliases import Schedule
 
 from utils import ensure_directory_exists
-from environment import create_training_env
+from env_factory import create_training_env
 
 import os
 import torch
-import location
+from location import MODEL_DIR, LOG_DIR, MODEL_PATH, LATEST_MODEL_PATH
 
 # On some systems, e.g MacOS, the default device is 'cpu' but we can use 'mps' for better performance https://developer.apple.com/metal/pytorch/
 def get_torch_device() -> torch.device:
@@ -24,21 +24,21 @@ def linear_schedule(initial_value: float, min_value: float) -> Schedule:
     return func
 
 def init():
-    ensure_directory_exists(location.MODEL_DIR)
-    ensure_directory_exists(location.LOG_DIR)
+    ensure_directory_exists(MODEL_DIR)
+    ensure_directory_exists(LOG_DIR)
     env = create_training_env()
     device = get_torch_device()
     print(f"Training on {device}")
     return env, device
 
 def get_model(env, device):
-    new_model = not os.path.exists(location.LATEST_MODEL_PATH + ".zip")
+    new_model = not os.path.exists(LATEST_MODEL_PATH + ".zip")
     if new_model:
         print("Training from scratch, creating new model")
-        model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=location.LOG_DIR, learning_rate=linear_schedule(0.00001, 0.000001), n_steps=512, device=device)
+        model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=LOG_DIR, learning_rate=linear_schedule(0.00001, 0.000001), n_steps=512, device=device)
     else:
-        print(f"Loading model from {location.LATEST_MODEL_PATH}.zip")
-        model = PPO.load(path=location.LATEST_MODEL_PATH, env=env, device=device)
+        print(f"Loading model from {LATEST_MODEL_PATH}.zip")
+        model = PPO.load(path=LATEST_MODEL_PATH, env=env, device=device)
     return model, new_model
 
 def train():
@@ -50,9 +50,9 @@ def train():
     print(f"Number of timesteps trained: {model.num_timesteps}, reset_num_timesteps: {reset_num_timesteps}")
 
     model.learn(total_timesteps=1_000_000, reset_num_timesteps=reset_num_timesteps)
-    model.save(location.MODEL_PATH)
+    model.save(MODEL_PATH)
 
-    print(f"Training complete, model saved to {location.MODEL_PATH}")
+    print(f"Training complete, model saved to {MODEL_PATH}")
 
     env.close()
 
