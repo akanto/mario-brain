@@ -15,7 +15,7 @@ def record_video(env):
 def evaluate():
     print("Evaluate")
 
-    env = create_training_env()    
+    env = create_training_env(render_mode='human')    
     #env = record_video(env)
 
     model = PPO.load(path=MODEL_PATH, env=env)

@@ -1,9 +1,9 @@
-from gym.wrappers import FrameStack, GrayScaleObservation
+
 from stable_baselines3 import PPO
 from stable_baselines3.common.type_aliases import Schedule
 
 from utils import ensure_directory_exists
-from env_factory import create_training_env
+from env_factory import create_training_env, create_parallel_training_env
 
 import os
 import torch
@@ -26,7 +26,8 @@ def linear_schedule(initial_value: float, min_value: float) -> Schedule:
 def init():
     ensure_directory_exists(MODEL_DIR)
     ensure_directory_exists(LOG_DIR)
-    env = create_training_env()
+    # env = create_training_env()
+    env = create_parallel_training_env(parallel=2)
     device = get_torch_device()
     print(f"Training on {device}")
     return env, device
