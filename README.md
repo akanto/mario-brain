@@ -36,6 +36,12 @@ If you want to see some gamplay without AI, then you can run the random play scr
 python mario_brain/random_play.py
 ```
 
+If you would like to benchmark the performance of your machine, you can run the benchmark script:
+
+```bash
+python mario_brain/benchmark.py
+```
+
 ## Logging and Monitoring
 
 Training logs and metrics are stored in the `../logs/` directory. Launch TensorBoard to monitor progress:
@@ -48,7 +54,11 @@ Open the link in your browser (http://localhost:6006/) to view real-time metrics
 
 ## References
 
-This repo was inspired by [Reinforcement Learning for Gaming](https://youtu.be/dWmJ5CXSKdw).
+This was inspired by the following resources:
+
+- [Reinforcement Learning for Gaming](https://youtu.be/dWmJ5CXSKdw)
+- [Proximal Policy Optimization](https://youtu.be/5P7I-xPq8u8)
+- [Policy Gradient Theorem Explained](https://youtu.be/cQfOQcpYRzE)
 
 ## Compatibility Issues
 

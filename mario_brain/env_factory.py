@@ -25,17 +25,19 @@ def register_all():
     register_custom_mario_env('CustomSuperMarioBros-v2', rom_mode='pixel')
     register_custom_mario_env('CustomSuperMarioBros-v3', rom_mode='rectangle')
 
-def create_env():
-    register_all()
-    env = gym.make('CustomSuperMarioBros-v0')
+def create_env(version='v0'):
+    env = gym.make('CustomSuperMarioBros-' + version)
     #env = gym_super_mario_bros.make('SuperMarioBros-v0')
     env = JoypadSpace(env, SIMPLE_MOVEMENT)
+    env = GrayScaleObservation(env, keep_dim=True)
+    # We can resize the observation, to reduce the computation
+    # env = ResizeObservation(env, (60, 64))
     return env
 
-def create_training_env():
-    env = create_env()
-    env = GrayScaleObservation(env, keep_dim=True)
-    # env = ResizeObservation(env, shape=64)
+def create_training_env(version='v0'):
+    env = create_env(version)
     env = DummyVecEnv([lambda: env])
     env = VecFrameStack(env, n_stack=4, channels_order='last')
     return env
+
+register_all()
