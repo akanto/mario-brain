@@ -1,4 +1,5 @@
 gymnasium
+gymnasium[other]
 git+https://github.com/ItaiBear/nes-py.git@gymnasium#egg=nes-py
 git+https://github.com/akanto/gym-super-mario-bros.git@master#egg=gym-super-mario-bros
 numpy==2.2.0

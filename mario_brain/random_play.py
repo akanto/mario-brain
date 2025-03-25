@@ -1,9 +1,9 @@
 from nes_py.wrappers import JoypadSpace
 import gym_super_mario_bros
-from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
+from gym_super_mario_bros.actions import COMPLEX_MOVEMENT
 
 env = gym_super_mario_bros.make('SuperMarioBros-v0', render_mode='human')
-env = JoypadSpace(env, SIMPLE_MOVEMENT)
+env = JoypadSpace(env, COMPLEX_MOVEMENT)
 
 terminated = True
 for step in range(5000):

@@ -26,8 +26,8 @@ def linear_schedule(initial_value: float, min_value: float) -> Schedule:
 def init():
     ensure_directory_exists(MODEL_DIR)
     ensure_directory_exists(LOG_DIR)
-    # env = create_training_env()
-    env = create_parallel_training_env(parallel=2)
+    #env = create_training_env()
+    env = create_parallel_training_env(parallel=4, render_mode='rgb_array')
     device = get_torch_device()
     print(f"Training on {device}")
     return env, device
@@ -49,8 +49,7 @@ def train():
 
     model, reset_num_timesteps = get_model(env, device)
     print(f"Number of timesteps trained: {model.num_timesteps}, reset_num_timesteps: {reset_num_timesteps}")
-
-    model.learn(total_timesteps=1_000_000, reset_num_timesteps=reset_num_timesteps)
+    model.learn(total_timesteps=2_000_000, reset_num_timesteps=reset_num_timesteps)
     model.save(MODEL_PATH)
 
     print(f"Training complete, model saved to {MODEL_PATH}")
