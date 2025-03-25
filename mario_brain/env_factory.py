@@ -1,5 +1,5 @@
 import gymnasium as gym
-from gym_super_mario_bros.actions import COMPLEX_MOVEMENT
+from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
 from gymnasium.wrappers import GrayscaleObservation, ResizeObservation
 from nes_py.wrappers import JoypadSpace
 from stable_baselines3.common.vec_env import VecFrameStack, DummyVecEnv, SubprocVecEnv, VecVideoRecorder
@@ -29,7 +29,7 @@ def register_all():
 def create_env(version='v0', render_mode=None):
     #env = gym.make('CustomSuperMarioBros-' + version)
     env = gym_super_mario_bros.make('SuperMarioBros-v0', render_mode=render_mode)
-    env = JoypadSpace(env, COMPLEX_MOVEMENT)
+    env = JoypadSpace(env, SIMPLE_MOVEMENT)
     env = GrayscaleObservation(env, keep_dim=True)
     env = CumulativeRewardWrapper(env)
     # We can resize the observation, to reduce the computation

@@ -9,13 +9,14 @@ class CumulativeRewardWrapper(gym.RewardWrapper):
         # self.writer = writer
         self.episode_count = 0
         self.cumulative_reward = 0
-        self.last_info = None
+        self.last_info = {}
 
     def reset(self, **kwargs):
         # Log the cumulative reward to TensorBoard after the episode ends
         if self.episode_count > 0:
             # self.writer.add_scalar("Cumulative Reward", self.cumulative_reward, self.episode_count)
-            print(f"Episode {self.episode_count}, Cumulative Reward: {self.cumulative_reward}, Info: {self.last_info}")
+            info_str = ", ".join(f"{key}: {value}" for key, value in self.last_info.items() if not isinstance(value, np.ndarray))
+            print(f"Episode {self.episode_count}, Cumulative Reward: {self.cumulative_reward}, Info: {info_str}")
         self.episode_count += 1
         self.cumulative_reward = 0
         return self.env.reset(**kwargs)
@@ -27,6 +28,6 @@ class CumulativeRewardWrapper(gym.RewardWrapper):
         return reward  # Return the original or modified reward
     
     def step(self, action):
-        observation, reward, done, info = self.env.step(action)
+        observation, reward, terminated, truncated, info = super().step(action)
         self.last_info = info
-        return observation, reward, done, info
+        return observation, reward, terminated, truncated, info
