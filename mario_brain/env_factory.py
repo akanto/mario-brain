@@ -28,7 +28,7 @@ def register_all():
 
 def create_env(version='v0', render_mode=None):
     #env = gym.make('CustomSuperMarioBros-' + version)
-    env = gym_super_mario_bros.make('SuperMarioBros-v0', render_mode=render_mode)
+    env = gym_super_mario_bros.make('SuperMarioBros-' + version, render_mode=render_mode)
     env = JoypadSpace(env, SIMPLE_MOVEMENT)
     env = GrayscaleObservation(env, keep_dim=True)
     env = CumulativeRewardWrapper(env)
@@ -42,14 +42,17 @@ def create_training_env(version='v0', render_mode=None):
     env = VecFrameStack(env, n_stack=4, channels_order='last')
     return env
 
-def create_parallel_training_env(version='v0', render_mode=None, parallel=4):
+def create_parallel_training_env(version='v0', render_mode=None, parallel=4, record_video=False, total_timesteps=1000):
     env = SubprocVecEnv([
         lambda: create_env(version=version, render_mode=render_mode) for _ in range(parallel)
     ])
     env = VecFrameStack(env, n_stack=4, channels_order='last')
-    # env = VecVideoRecorder(env, "videos/",
-    #                    record_video_trigger=lambda step: step % 2000 == 0,  # Always record
-    #                    video_length=100_000)  # Large number to cover the entire training
+    if record_video:
+        env = VecVideoRecorder(env, "videos/",
+                           record_video_trigger=lambda step: step == 0,  # Record only the first step
+                           video_length=total_timesteps)
+
+    # 
     return env
 
 register_all()
