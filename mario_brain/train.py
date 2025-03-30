@@ -9,6 +9,8 @@ import os
 import torch
 from location import MODEL_DIR, LOG_DIR, MODEL_PATH, LATEST_MODEL_PATH
 
+from tensor_callback import TensorboardCallback
+
 # On some systems, e.g MacOS, the default device is 'cpu' but we can use 'mps' for better performance https://developer.apple.com/metal/pytorch/
 def get_torch_device() -> torch.device:
     if torch.cuda.is_available():
@@ -51,7 +53,7 @@ def train():
 
     model, reset_num_timesteps = get_model(env, device)
     print(f"Number of timesteps trained: {model.num_timesteps}, reset_num_timesteps: {reset_num_timesteps}")
-    model.learn(total_timesteps=total_timesteps, reset_num_timesteps=reset_num_timesteps)
+    model.learn(total_timesteps=total_timesteps, callback=TensorboardCallback(verbose=1), reset_num_timesteps=reset_num_timesteps)
     model.save(MODEL_PATH)
 
     print(f"Training complete, model saved to {MODEL_PATH}")
