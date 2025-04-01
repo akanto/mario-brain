@@ -63,7 +63,13 @@ resource "aws_instance" "rl_instance" {
   key_name      = aws_key_pair.rl_key.key_name
   subnet_id     = var.subnet_id
   vpc_security_group_ids = [aws_security_group.rl_sg.id]
-  associate_public_ip_address = false
+  instance_market_options {
+    market_type = "spot"
+    spot_options {
+      spot_instance_type = "persistent"
+      instance_interruption_behavior = "stop"
+    }
+  }
 
   root_block_device {
     volume_size = 100
@@ -85,3 +91,13 @@ output "private_ip" {
   value       = aws_instance.rl_instance.private_ip
   description = "Private IP of the RL training instance"
 }
+
+output "max_spot_price" {
+  value       = aws_instance.rl_instance.instance_market_options[0].spot_options[0].max_price
+  description = "Spot price of the RL training instance"
+}
+
+# output "market_options" {
+#   value = aws_instance.rl_instance.instance_market_options
+#   description = "Market options for the RL training instance"
+# }
