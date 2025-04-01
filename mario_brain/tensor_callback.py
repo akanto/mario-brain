@@ -32,9 +32,6 @@ class TensorboardCallback(BaseCallback):
                 self.logger.record("episode/cumulative_reward", ep_reward)
                 self.logger.record("episode/length", ep_length)
 
-                # Optional print
-                print(f"[env {i}] Reward: {ep_reward}, Length: {ep_length}")
-
                 # Reset that env's counters
                 self.current_rewards[i] = 0.0
                 self.current_lengths[i] = 0

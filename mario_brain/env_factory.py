@@ -26,18 +26,19 @@ def register_all():
     register_custom_mario_env('CustomSuperMarioBros-v2', rom_mode='pixel')
     register_custom_mario_env('CustomSuperMarioBros-v3', rom_mode='rectangle')
 
-def create_env(version='v0', render_mode=None):
+def create_env(version='v0', render_mode=None, reward_summary=False):
     #env = gym.make('CustomSuperMarioBros-' + version)
     env = gym_super_mario_bros.make('SuperMarioBros-' + version, render_mode=render_mode)
     env = JoypadSpace(env, SIMPLE_MOVEMENT)
     env = GrayscaleObservation(env, keep_dim=True)
-    env = CumulativeRewardWrapper(env)
+    if reward_summary:
+        env = CumulativeRewardWrapper(env)
     # We can resize the observation, to reduce the computation
     # env = ResizeObservation(env, (60, 64))
     return env
 
-def create_training_env(version='v0', render_mode=None):
-    env = create_env(version, render_mode=render_mode)
+def create_training_env(version='v0', render_mode=None, reward_summary=False):
+    env = create_env(version, render_mode=render_mode, reward_summary=reward_summary)
     env = DummyVecEnv([lambda: env])
     env = VecFrameStack(env, n_stack=4, channels_order='last')
     return env

@@ -15,7 +15,8 @@ def record_video(env):
 def evaluate():
     print("Evaluate")
 
-    env = create_training_env(render_mode='human')    
+    env = create_training_env(render_mode='human', reward_summary=True)
+    
     #env = record_video(env)
 
     model = PPO.load(path=MODEL_PATH, env=env)
@@ -24,7 +25,7 @@ def evaluate():
     done = False
     while not done:
         action, _ = model.predict(obs)
-        obs, _, done, _ = env.step(action)
+        obs, _, _, _ = env.step(action)
         env.render()
     env.close()
 

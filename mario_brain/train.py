@@ -46,7 +46,7 @@ def get_model(env, device):
     return model, new_model
 
 def train():
-    total_timesteps = 2_000_000
+    total_timesteps = 10_000_000
     env, device = init(total_timesteps)
 
     env.reset()
