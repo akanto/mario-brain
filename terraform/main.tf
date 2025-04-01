@@ -75,6 +75,10 @@ resource "aws_instance" "rl_instance" {
     volume_size = 100
     volume_type = "gp3"
     delete_on_termination = true
+    
+    tags = {
+        "owner" = var.owner_tag
+    }
   }
 
   tags = {
