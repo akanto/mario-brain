@@ -1,0 +1,5 @@
+ssh_key_name   = "akanto-rl-ssh"
+public_key_path = "~/.ssh/id_rsa.pub"
+subnet_id      = "subnet-xxxxxxxxxxxxxxxxx"
+vpc_id         = "vpc-xxxxxxxxxxxxxxxxx"
+owner_tag      = "akanto"

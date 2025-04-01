@@ -1,0 +1,17 @@
+# Local .tfvars files (contains secrets or env-specific data)
+*.tfvars
+*.tfvars.json
+
+# Terraform state
+*.tfstate
+*.tfstate.*
+
+# Crash logs
+crash.log
+
+# Terraform plan files
+*.tfplan
+
+# Terraform directories
+.terraform/
+.terraform.lock.hcl
