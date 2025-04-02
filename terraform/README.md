@@ -20,27 +20,42 @@ vpc_id          = "vpc-xxxxxxxxxxxxxxxx"
 owner_tag       = "akanto"
 ```
 
-## Launch the EC2 Instance
+## Manage the EC2 Instance
+
+You can use the following commands to launch the EC2 instance:
 
 ```bash
 terraform init
 terraform apply -var-file=dev.tfvars
 ```
 
-## Connect to the Instance
+You can terminate the instance using the following command:
+
+```bash
+terraform destroy -var-file=dev.tfvars
+```
+
+Connect to the instance using SSH:
 
 ```bash
 ssh ubuntu@<instance-public-ip>
 ```
 
-You can inspect the nvidia-smi output to verify the GPU is available:
+## Monitor the EC2 Instance
+
+You can inspect the nvidia-smi output to verify the GPU is available, or check the cpu utilisation:
 
 ```bash
 nvidia-smi
+top -u ubuntu
 ```
 
-## Terminate the Instance
+You can use nvtop to monitor the GPU usage:
 
 ```bash
-terraform destroy -var-file=dev.tfvars
+sudo apt update
+sudo apt install nvtop
+nvtop
 ```
+
+![nvtop](nvtop.png)

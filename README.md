@@ -27,7 +27,7 @@ Install reqirements if you have Nvidia GPU (e.g with CUDA 12.6):
 pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu126
 ```
 
-## Usage
+## Training
 
 Train the agent from scratch using the following command, the trained model will be saved in the `models/` directory:
 
@@ -35,11 +35,21 @@ Train the agent from scratch using the following command, the trained model will
 python mario_brain/train.py
 ```
 
+Or if you wwish to launch in the background, you can use the following command:
+
+```bash
+nohup python mario_brain/train.py --parallel 4 --timesteps 50_000_000 > train.log 2>&1 &
+```
+
+## Evaluation
+
 Evaluate the trained model to see how well it performs, it will load the model from the `models/` directory. The evaluation also renders the gameplay, so you can watch the AI play:
 
 ```bash
 python mario_brain/evaluate.py
 ```
+
+## Random Play
 
 If you want to see some gamplay without AI, then you can run the random play script:
 
@@ -47,7 +57,17 @@ If you want to see some gamplay without AI, then you can run the random play scr
 python mario_brain/random_play.py
 ```
 
-If you would like to benchmark the performance of your machine, you can run the benchmark script:
+## Human Play
+
+If you want to play the game yourself, you can use the human play script. It will allow you to control the game using your keyboard:
+
+```bash
+python mario_brain/human_play.py
+```
+
+## Benchmarking
+
+Benchmark contains a few scripts to test PyTorch and Gymasium performance on your machine. It does not provied any useful information about the training process, but it can be used to test the performance of your machine or test wether cuda or mps is working properly.
 
 ```bash
 python mario_brain/benchmark.py
