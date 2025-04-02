@@ -9,11 +9,22 @@ Mario Brain trains an AI agent to play Super Mario Bros using deep reinforcement
 Clone the repository and create a virtual environment, and install the required packages.
 
 ```bash
-git clone git@github.com:akanto/mario-brain.git
+git clone https://github.com/akanto/mario-brain.git
 cd mario-brain
 python3 -m venv .venv
 source .venv/bin/activate
+```
+
+Install requirements if you have MacOS wih mps:
+
+```bash
 pip install -r requirements.txt
+```
+
+Install reqirements if you have Nvidia GPU (e.g with CUDA 12.6):
+
+```bash
+pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu126
 ```
 
 ## Usage
