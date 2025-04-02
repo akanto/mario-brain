@@ -16,7 +16,7 @@ from callbacks.checkpoint_callback import CheckpointCallback
 def callback_list() -> CallbackList:
     checkpoint_callback = CheckpointCallback(
         save_freq=1_000_000,
-        save_path=MODEL_PATH,
+        save_path=MODEL_DIR,
         verbose=1
     )
     tensorboard_callback = TensorboardCallback(verbose=1)
