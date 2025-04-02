@@ -1,4 +1,3 @@
-import gymnasium as gym
 from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
 from gymnasium.wrappers import GrayscaleObservation, ResizeObservation
 from nes_py.wrappers import JoypadSpace
@@ -6,25 +5,6 @@ from stable_baselines3.common.vec_env import VecFrameStack, DummyVecEnv, Subproc
 from reward_summary import CumulativeRewardWrapper
 
 import gym_super_mario_bros
-
-def register_custom_mario_env(id, **kwargs):
-    """
-    Register a Super Mario Bros environment with OpenAI Gym.
-    """
-    gym.envs.registration.register(
-        id=id,
-        entry_point='custom_env:CustomMarioEnv',
-        max_episode_steps=9999999,
-        reward_threshold=9999999,
-        kwargs=kwargs,
-        nondeterministic=True,
-    )
-
-def register_all():
-    register_custom_mario_env('CustomSuperMarioBros-v0', rom_mode='vanilla')
-    register_custom_mario_env('CustomSuperMarioBros-v1', rom_mode='downsample')
-    register_custom_mario_env('CustomSuperMarioBros-v2', rom_mode='pixel')
-    register_custom_mario_env('CustomSuperMarioBros-v3', rom_mode='rectangle')
 
 def create_env(version='v0', render_mode=None, reward_summary=False):
     #env = gym.make('CustomSuperMarioBros-' + version)
@@ -53,7 +33,4 @@ def create_parallel_training_env(version='v0', render_mode=None, parallel=4, rec
                            record_video_trigger=lambda step: step == 0,  # Record only the first step
                            video_length=total_timesteps)
 
-    # 
     return env
-
-register_all()
