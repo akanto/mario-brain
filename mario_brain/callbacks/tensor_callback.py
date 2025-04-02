@@ -2,7 +2,7 @@ import numpy as np
 from stable_baselines3.common.callbacks import BaseCallback
 
 class TensorboardCallback(BaseCallback):
-    def __init__(self, verbose=0):
+    def __init__(self, verbose=1):
         super().__init__(verbose)
         self.n_envs = None
         self.episode_rewards = []
