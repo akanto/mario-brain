@@ -1,7 +1,7 @@
 # Terraform script to launch a GPU EC2 instance for RL training (on-demand instance)
 
 provider "aws" {
-  region = "us-west-1"
+  region = "us-east-1"
 }
 
 variable "ssh_key_name" {
@@ -58,11 +58,13 @@ resource "aws_security_group" "rl_sg" {
 }
 
 resource "aws_instance" "rl_instance" {
-  ami           = "ami-01b288b405fe96ef7"  # Deep Learning Ubuntu 22.04 + PyTorch 2.6 AMI (us-west-1)
+  ami           = "ami-0a163d5d4c79d1214"  # Deep Learning Ubuntu 22.04 + PyTorch 2.6 AMI (us-east-1)
   instance_type = "g4dn.xlarge"  # GPU instance type
   key_name      = aws_key_pair.rl_key.key_name
   subnet_id     = var.subnet_id
   vpc_security_group_ids = [aws_security_group.rl_sg.id]
+  associate_public_ip_address = true
+
   instance_market_options {
     market_type = "spot"
     spot_options {
@@ -94,6 +96,11 @@ output "instance_id" {
 output "private_ip" {
   value       = aws_instance.rl_instance.private_ip
   description = "Private IP of the RL training instance"
+}
+
+output "public_ip" {
+  value       = aws_instance.rl_instance.public_ip
+  description = "Public IP of the RL training instance"
 }
 
 output "max_spot_price" {
