@@ -54,6 +54,8 @@ def get_model(env, device):
         print("Training from scratch, creating new model")
         model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=LOG_DIR, 
                     learning_rate=linear_schedule(0.00001, 0.000001), ent_coef=0.02, batch_size=2048, n_steps=1024, device=device)
+        # PyTorch 2.x only — speeds up model execution
+        # model.policy = torch.compile(model.policy, mode="reduce-overhead")  # or "default" / "max-autotune"
     else:
         print(f"Loading model from {LATEST_MODEL_PATH}.zip")
         model = PPO.load(path=LATEST_MODEL_PATH, env=env, device=device)

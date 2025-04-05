@@ -10,6 +10,7 @@ __pycache__/
 # Logs and models
 logs/
 models/
+models_bak/
 
 # macOS-specific files
 .DS_Store
