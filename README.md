@@ -27,6 +27,14 @@ Install reqirements if you have Nvidia GPU (e.g with CUDA 12.6):
 pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu126
 ```
 
+## Hugging Face Model Hub
+
+You can download the trained model from the Hugging Face Model Hub by adding the submodule to your project:
+
+```bash
+ git submodule add https://huggingface.co/akantox/mario-rl-model models
+```
+
 ## Training
 
 Train the agent from scratch using the following command, the trained model will be saved in the `models/` directory:
