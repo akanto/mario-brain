@@ -58,7 +58,8 @@ def get_model(env, device):
         # model.policy = torch.compile(model.policy, mode="reduce-overhead")  # or "default" / "max-autotune"
     else:
         print(f"Loading model from {LATEST_MODEL_PATH}.zip")
-        model = PPO.load(path=LATEST_MODEL_PATH, env=env, device=device)
+        # See debug/ppo_learning_rate_seg_fault.md why we need to pass learning_rate again
+        model = PPO.load(path=LATEST_MODEL_PATH, env=env, device=device, learning_rate=linear_schedule(0.00001, 0.000001))
     return model, new_model
 
 def train(parallel: int = 8, total_timesteps: int = 50_000_000):
