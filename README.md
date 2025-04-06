@@ -9,7 +9,7 @@ Mario Brain trains an AI agent to play Super Mario Bros using deep reinforcement
 Clone the repository and create a virtual environment, and install the required packages.
 
 ```bash
-git clone https://github.com/akanto/mario-brain.git
+git clone --recurse-submodules https://github.com/akanto/mario-brain.git
 cd mario-brain
 python3 -m venv .venv
 source .venv/bin/activate
@@ -29,11 +29,7 @@ pip install -r requirements.txt --extra-index-url https://download.pytorch.org/w
 
 ## Hugging Face Model Hub
 
-You can download the trained model from the Hugging Face Model Hub by adding the submodule to your project:
-
-```bash
- git submodule add https://huggingface.co/akantox/mario-rl-model models
-```
+The `models` directory is submodule and it is linked to [mario-rl-model](https://huggingface.co/akantox/mario-rl-model) repository on Hugging Face. The `git clone --recurse-submodules https://github.com/akanto/mario-brain.git` command will automatically clone the model repository as well.
 
 ## Training
 
