@@ -85,6 +85,12 @@ _PyEval_EvalFrameDefault (tstate=<optimized out>, frame=0x7ffff7fb0810, throwfla
 #21 0x000055555580a0e5 in _start ()
 ```
 
+Show stactrace of the segmentation fault:
+
+```bash
+export PYTHONFAULTHANDLER=1
+```
+
 ## Root Cause
 
 When using a **custom function** for `learning_rate` (or other SB3 config values), the function gets **serialized via `pickle`** and embedded inside the `data` file of the saved `.zip` model. This is not safe across platforms.

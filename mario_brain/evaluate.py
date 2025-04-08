@@ -3,6 +3,7 @@ from env_factory import create_training_env
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env.vec_video_recorder import VecVideoRecorder
 
+import argparse
 import os
 from location import VIDEO_DIR, MODEL_PATH
 
@@ -12,14 +13,15 @@ def record_video(env):
     return env
 
 
-def evaluate():
+def evaluate(model_path: str):
     print("Evaluate")
 
     env = create_training_env(version='v0', render_mode='human', reward_summary=True)
     
     #env = record_video(env)
 
-    model = PPO.load(path=MODEL_PATH, env=env)
+    model = PPO.load(path=model_path, env=env, custom_objects=dict(learning_rate=0.00001), device='mps')
+    #model = PPO.load(path=model_path, env=env, device='cpu')
 
     obs = env.reset()
     done = False
@@ -30,4 +32,7 @@ def evaluate():
     env.close()
 
 if __name__ == "__main__":
-    evaluate()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", type=str, default=MODEL_PATH, help="Path to the model to evaluate")
+    args = parser.parse_args()
+    evaluate(model_path=args.model)

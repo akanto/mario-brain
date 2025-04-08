@@ -1,6 +1,6 @@
 
 from stable_baselines3 import PPO
-from stable_baselines3.common.type_aliases import Schedule
+from schedules.linear_schedule import CappedLinearSchedule
 
 from env_factory import create_training_env, create_parallel_training_env
 
@@ -33,41 +33,38 @@ def get_torch_device() -> torch.device:
     else:
         return torch.device("cpu")
 
-def linear_schedule(initial_value: float, min_value: float) -> Schedule:
-    def func(progress_remaining: float) -> float:
-        return max(min_value, progress_remaining * initial_value)
-    return func
-
 def init(total_timesteps, parallel=8):
     torch.set_num_threads(parallel)
     os.makedirs(MODEL_DIR, exist_ok=True)
     os.makedirs(LOG_DIR, exist_ok=True)
-    #env = create_training_env('v0')
-    env = create_parallel_training_env(version='v0', parallel=parallel, render_mode='rgb_array', record_video=False, total_timesteps=total_timesteps)
+    if parallel > 1:
+        env = create_parallel_training_env(version='v0', parallel=parallel, render_mode='rgb_array', record_video=False, total_timesteps=total_timesteps)
+    else:
+        env = create_training_env('v0')
+
+    env.reset()
     device = get_torch_device()
     print(f"Training on {device}")
     return env, device
 
-def get_model(env, device):
-    new_model = not os.path.exists(LATEST_MODEL_PATH + ".zip")
+def get_model(env, device, model_path):
+    new_model = not os.path.exists(model_path if model_path.endswith(".zip") else model_path + ".zip")
     if new_model:
         print("Training from scratch, creating new model")
         model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=LOG_DIR, 
-                    learning_rate=linear_schedule(0.00001, 0.000001), ent_coef=0.02, batch_size=2048, n_steps=1024, device=device)
+                    learning_rate=CappedLinearSchedule(0.00001, 0.000001), ent_coef=0.02, batch_size=2048, n_steps=1024, device=device)
         # PyTorch 2.x only — speeds up model execution
         # model.policy = torch.compile(model.policy, mode="reduce-overhead")  # or "default" / "max-autotune"
     else:
-        print(f"Loading model from {LATEST_MODEL_PATH}.zip")
+        print(f"Loading model from {model_path}.zip")
         # See debug/ppo_learning_rate_seg_fault.md why we need to pass learning_rate again
-        model = PPO.load(path=LATEST_MODEL_PATH, env=env, device=device, learning_rate=linear_schedule(0.00001, 0.000001))
+        model = PPO.load(path=model_path, env=env, device=device, custom_objects=dict(learning_rate=CappedLinearSchedule(0.00001, 0.000001)))
     return model, new_model
 
-def train(parallel: int = 8, total_timesteps: int = 50_000_000):
+def train(parallel: int = 8, total_timesteps: int = 50_000_000, model_path: str = MODEL_PATH):
     env, device = init(total_timesteps, parallel)
 
-    env.reset()
-
-    model, reset_num_timesteps = get_model(env, device)
+    model, reset_num_timesteps = get_model(env, device, model_path)
     print(f"Number of timesteps trained: {model.num_timesteps}, reset_num_timesteps: {reset_num_timesteps}")
     model.learn(total_timesteps=total_timesteps, callback=callback_list(), reset_num_timesteps=reset_num_timesteps)
     model.save(MODEL_PATH)
@@ -80,6 +77,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--parallel", type=int, default=8, help="Number of parallel environments")
     parser.add_argument("--timesteps", type=int, default=10_000_000, help="Total timesteps to train")
+    parser.add_argument("--model", type=str, default=LATEST_MODEL_PATH, help="Path to the model to evaluate")
     args = parser.parse_args()
 
-    train(parallel=args.parallel, total_timesteps=args.timesteps)
+    train(parallel=args.parallel, total_timesteps=args.timesteps, model_path=args.model)
