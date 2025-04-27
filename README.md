@@ -97,7 +97,7 @@ This was inspired by the following resources:
 
 ## Compatibility Issues
 
-Some of the libraries used in this project are not compatible with the latest versions of NumPy and OpenAI's Gymnasium, therfore some of the libs are pinned to an old versions in the `requirements.txt` file.
+Some of the libraries used in this project are not compatible with the latest versions of NumPy and OpenAI's Gymnasium, therfore those libraries have been forked and the git repos were added to the `requirements.txt`.
 
 ## License
 

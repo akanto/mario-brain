@@ -1,7 +1,13 @@
 # Terraform script to launch a GPU EC2 instance for RL training (on-demand instance)
 
+variable "region" {
+  description = "AWS region to deploy the instance"
+  type        = string
+  default     = "us-west-1"
+}
+
 provider "aws" {
-  region = "us-west-1"
+  region = var.region
 }
 
 variable "ssh_key_name" {
@@ -23,6 +29,20 @@ variable "vpc_id" {
 variable "owner_tag" {
   description = "Owner tag for identifying resources"
   type        = string
+}
+variable "public_ip" {
+  description = "Whether to associate a public IP address"
+  type        = bool
+  default     = false
+}
+variable "ami_id" {
+  description = "AMI ID for the instance"
+  type        = string
+}
+variable "instance_type" {
+  description = "Instance type for the instance"
+  type        = string
+  default     = "g4dn.xlarge"
 }
 
 resource "aws_key_pair" "rl_key" {
@@ -58,8 +78,8 @@ resource "aws_security_group" "rl_sg" {
 }
 
 resource "aws_instance" "rl_instance" {
-  ami           = "ami-01b288b405fe96ef7"  # Deep Learning Ubuntu 22.04 + PyTorch 2.6 AMI (us-west-1)
-  instance_type = "g4dn.xlarge"  # GPU instance type
+  ami           = var.ami_id
+  instance_type = var.instance_type
   key_name      = aws_key_pair.rl_key.key_name
   subnet_id     = var.subnet_id
   vpc_security_group_ids = [aws_security_group.rl_sg.id]
