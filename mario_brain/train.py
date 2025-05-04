@@ -1,17 +1,17 @@
 
 from stable_baselines3 import PPO
-from schedules.linear_schedule import CappedLinearSchedule
+from mario_brain.schedules.linear_schedule import CappedLinearSchedule
 
-from env_factory import create_training_env, create_parallel_training_env
+from mario_brain.env_factory import create_training_env, create_parallel_training_env
 
 import argparse
 import os
 import torch
-from location import MODEL_DIR, LOG_DIR, MODEL_PATH, LATEST_MODEL_PATH
+from mario_brain.location import MODEL_DIR, LOG_DIR, MODEL_PATH, LATEST_MODEL_PATH
 
 from stable_baselines3.common.callbacks import CallbackList
-from callbacks.tensor_callback import TensorboardCallback
-from callbacks.checkpoint_callback import CheckpointCallback
+from mario_brain.callbacks.tensor_callback import TensorboardCallback
+from mario_brain.callbacks.checkpoint_callback import CheckpointCallback
 
 def callback_list() -> CallbackList:
     checkpoint_callback = CheckpointCallback(

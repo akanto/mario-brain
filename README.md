@@ -36,13 +36,13 @@ The `models` directory is submodule and it is linked to [mario-rl-model](https:/
 Train the agent from scratch using the following command, the trained model will be saved in the `models/` directory:
 
 ```bash
-python mario_brain/train.py
+python -m mario_brain.train
 ```
 
 Or if you wwish to launch in the background, you can use the following command:
 
 ```bash
-nohup python mario_brain/train.py --parallel 4 --timesteps 50_000_000 > train.log 2>&1 &
+nohup python -m mario_brain.train --parallel 4 --timesteps 50_000_000 > train.log 2>&1 &
 ```
 
 ## Evaluation
@@ -50,7 +50,7 @@ nohup python mario_brain/train.py --parallel 4 --timesteps 50_000_000 > train.lo
 Evaluate the trained model to see how well it performs, it will load the model from the `models/` directory. The evaluation also renders the gameplay, so you can watch the AI play:
 
 ```bash
-python mario_brain/evaluate.py
+python -m mario_brain.evaluate
 ```
 
 ## Random Play
@@ -58,7 +58,7 @@ python mario_brain/evaluate.py
 If you want to see some gamplay without AI, then you can run the random play script:
 
 ```bash
-python mario_brain/random_play.py
+python -m mario_brain.random_play
 ```
 
 ## Human Play
@@ -66,7 +66,7 @@ python mario_brain/random_play.py
 If you want to play the game yourself, you can use the human play script. It will allow you to control the game using your keyboard:
 
 ```bash
-python mario_brain/human_play.py
+python -m mario_brain.human_play
 ```
 
 ## Benchmarking
@@ -74,7 +74,7 @@ python mario_brain/human_play.py
 Benchmark contains a few scripts to test PyTorch and Gymasium performance on your machine. It does not provied any useful information about the training process, but it can be used to test the performance of your machine or test wether cuda or mps is working properly.
 
 ```bash
-python mario_brain/benchmark.py
+python -m mario_brain.benchmark
 ```
 
 ## Logging and Monitoring

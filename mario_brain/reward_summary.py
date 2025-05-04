@@ -1,7 +1,6 @@
 import gymnasium as gym
 import numpy as np
 from torch.utils.tensorboard import SummaryWriter
-import logging
 
 class CumulativeRewardWrapper(gym.RewardWrapper):
     #def __init__(self, env, writer: SummaryWriter):

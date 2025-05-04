@@ -1,13 +1,13 @@
 import torch
 import torch.profiler
-from env_factory import create_env, create_training_env
+from mario_brain.env_factory import create_env, create_training_env
 from stable_baselines3 import PPO
 import time
 import numpy as np
 import torch
 import time
-from location import MODEL_PATH
-from train import get_torch_device
+from mario_brain.location import MODEL_PATH
+from mario_brain.train import get_torch_device
 
 def transfer_speed():
     """

@@ -1,4 +1,4 @@
-from env_factory import create_training_env
+from mario_brain.env_factory import create_training_env
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env.vec_video_recorder import VecVideoRecorder

@@ -2,7 +2,7 @@ from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
 from gymnasium.wrappers import GrayscaleObservation, ResizeObservation
 from nes_py.wrappers import JoypadSpace
 from stable_baselines3.common.vec_env import VecFrameStack, DummyVecEnv, SubprocVecEnv, VecVideoRecorder
-from reward_summary import CumulativeRewardWrapper
+from mario_brain.reward_summary import CumulativeRewardWrapper
 
 import gym_super_mario_bros
 
