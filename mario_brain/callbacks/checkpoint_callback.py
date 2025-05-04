@@ -1,5 +1,7 @@
-from stable_baselines3.common.callbacks import BaseCallback
 import os
+
+from stable_baselines3.common.callbacks import BaseCallback
+
 
 class CheckpointCallback(BaseCallback):
     def __init__(self, save_path: str, save_freq: int = 1_000_000, verbose: int = 1):

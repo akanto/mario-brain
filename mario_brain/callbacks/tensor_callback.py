@@ -1,6 +1,7 @@
 import numpy as np
 from stable_baselines3.common.callbacks import BaseCallback
 
+
 class TensorboardCallback(BaseCallback):
     def __init__(self, verbose=1):
         super().__init__(verbose)

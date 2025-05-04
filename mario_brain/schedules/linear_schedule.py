@@ -5,6 +5,7 @@
 #         return max(min_value, progress_remaining * initial_value)
 #     return func
 
+
 class CappedLinearSchedule:
     def __init__(self, initial_value: float, min_value: float):
         self.initial_value = initial_value
