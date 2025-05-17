@@ -21,5 +21,5 @@ test:
 
 coverage:
 	@echo "Running tests with coverage..."
-	PYTHONPATH=. pytest tests/ --tb=short --cov=spark_exec_predictor --cov-report=html:coverage_html_report --cov-report=term-missing
+	PYTHONPATH=. pytest tests/ --tb=short --cov=mario_brain --cov-report=html:coverage_html_report --cov-report=term-missing
 	@echo "Coverage report generated in coverage_html_report/index.html"

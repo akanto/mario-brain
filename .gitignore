@@ -14,3 +14,7 @@ models_bak/
 
 # macOS-specific files
 .DS_Store
+
+# Coverage
+.coverage
+coverage_html_report/
