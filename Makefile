@@ -1,4 +1,4 @@
-LINT_PATHS=mario_brain/
+LINT_PATHS=mario_brain/ tests/
 
 lint:
 	# stop the build if there are Python syntax errors or undefined names
@@ -14,3 +14,12 @@ format:
 	black ${LINT_PATHS}
 
 commit-checks: format lint
+
+test:
+	@echo "Running tests..."
+	PYTHONPATH=. pytest tests/ --tb=short
+
+coverage:
+	@echo "Running tests with coverage..."
+	PYTHONPATH=. pytest tests/ --tb=short --cov=spark_exec_predictor --cov-report=html:coverage_html_report --cov-report=term-missing
+	@echo "Coverage report generated in coverage_html_report/index.html"
