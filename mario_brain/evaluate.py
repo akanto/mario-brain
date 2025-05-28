@@ -1,7 +1,7 @@
 import argparse
 import os
 
-from location import MODEL_PATH, VIDEO_DIR
+from mario_brain.location import MODEL_PATH, VIDEO_DIR
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env.vec_video_recorder import VecVideoRecorder
 
