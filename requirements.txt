@@ -3,9 +3,9 @@ gymnasium[other]==1.1.1
 git+https://github.com/akanto/nes-py.git@master#egg=nes-py
 git+https://github.com/akanto/gym-super-mario-bros.git@master#egg=gym-super-mario-bros
 numpy==2.2.0
-torch==2.7.0
-torchvision==0.22.0
-torchaudio==2.7.0
+torch==2.7.1
+torchvision==0.22.1
+torchaudio==2.7.1
 stable_baselines3==2.7.0a0
 standard-imghdr==3.13.0
 imageio==2.37.0
