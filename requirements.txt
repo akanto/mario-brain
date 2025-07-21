@@ -6,7 +6,7 @@ numpy==2.2.0
 torch==2.7.1
 torchvision==0.22.1
 torchaudio==2.7.1
-stable_baselines3==2.7.0a0
+stable_baselines3==2.7.0a1
 standard-imghdr==3.13.0
 imageio==2.37.0
 imageio-ffmpeg==0.6.0
